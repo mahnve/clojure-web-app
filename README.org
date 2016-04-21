@@ -9,6 +9,8 @@
 #+REVEAL_TRANS: fade
 
 * Hello World
+**  Generate Skeleton App
+
 
 #+begin_src sh :results code sh
 $ lein new app data_backend
@@ -16,7 +18,7 @@ $ lein new app data_backend
 Generating a project called data_backend based on the 'app' template.
 #+end_src
 
-** Structure
+** Generated Structure
 
 #+begin_src sh :results code sh
 $ tree .
@@ -39,7 +41,7 @@ $ tree .
 6 directories, 8 files
 #+END_SRC
 
-** Build jar
+** Build a Standalone jar
 
 #+begin_src sh :results code sh
 $ lein uberjar
@@ -48,7 +50,7 @@ Created [..]/target/uberjar/data_backend-0.1.0-SNAPSHOT.jar
 Created [..]/target/uberjar/data_backend-0.1.0-SNAPSHOT-standalone.jar
 #+END_SRC
 
-** Run it
+** Run It
 
 #+begin_src sh :results drawer
 $ java -jar target/uberjar/data_backend-0.1.0-SNAPSHOT-standalone.jar
@@ -60,17 +62,13 @@ Hello, World!
 
 ** Add Ring
 
-- Start REPL
-  - Jack in etc
-
 #+begin_src clojure
 [ring/ring-defaults "0.2.0"]
 [ring "1.4.0"]
 #+end_src
 
-** Add Handler
-
-In a new file handler.clj, create a handler
+** Create A Handler File
+*** create a new file: handler.clj
 
 #+begin_src clojure
 (defn app [request]
@@ -87,13 +85,13 @@ In a new file handler.clj, create a handler
 
 ** Add server definition
 
-Locks up REPL, add server definition (idea from [[https://stackoverflow.com/questions/2706044/how-do-i-stop-jetty-server-in-clojure#2706239][StackOverflow]])
+*** Add server definition (idea from [[https://stackoverflow.com/questions/2706044/how-do-i-stop-jetty-server-in-clojure#2706239][StackOverflow]])
 
 #+begin_src clojure
 (def server (jetty/run-jetty #'handler/app {:port 3000 :join? false}))
 #+end_src
 
-Now we can start and stop the server as such in the REPL:
+*** Now we can start and stop the server in the REPL:
 
 #+begin_src clojure
 (.start server)
@@ -189,6 +187,7 @@ See more: [[https://www.getmdl.io/components/index.html#layout-section][https://
 (def about-page (render-page  [:h1 "About"]))
 
 #+end_src
+* Static files
 ** Add and require defaults wrapper
 #+begin_src clojure
 [ring/ring-defaults "0.2.0"]
@@ -248,6 +247,7 @@ $ touch resources/public/css/styles.css
 #+end_src
 
 ** Add and require ring-middleware-format
+Handles "Accept" headers
 #+begin_src clojure
 [ring-middleware-format "0.7.0"]]
 #+end_src
